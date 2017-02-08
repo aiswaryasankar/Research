@@ -14,7 +14,7 @@ import random as random
 class Neuron(object):
 	def __init__(self, numFeatures):
 		#self.weights = [random.uniform(-.1, .1) for num in range(2)]
-		self.weights = [3,4]
+		self.weights = [5,6]
 		self.features = numFeatures
 		self.bias = 1
 
@@ -31,14 +31,16 @@ class Neuron(object):
 
 		# Now I want to loop through and learn the weights
 		gradient = 10.0
-		while (np.abs(gradient) > 1):
+		count = 0
+		while (count < 50):
 			gradient = (2.0/ len(y) * sum(np.dot(np.dot(X, self.weights) - y, X)))
 			print ('gradient is ')
 			print(gradient)
 			print('weight is ')
 			for i in range(len(self.weights)):
-				self.weights[i] = self.weights[i] - 0.1 * gradient
+				self.weights[i] = self.weights[i] - 0.01 * gradient
 			print(self.weights)
+			count += 1
 
 		# for i in range(200):
 		# 	print('iteration ' + str(i))
