@@ -15,8 +15,8 @@ for i in range(5):
     print(X[i])
 
 # Initialize placeholders 
-X = tf.placeholder('float', [100, 3])
-Y = tf.placeholder('float', [100, 1])
+X = tf.placeholder('float', shape=[None, 3])
+Y = tf.placeholder('float', shape=[None, 1])
 
 # Initialize weights
 def initialize_weights(shape):
@@ -36,7 +36,7 @@ w2 = initialize_weights((2, 1))
 pred_model = model(X, w1, w2)
 
 # Write a cost function
-cost = tf.square(Y - pred_model)
+cost = tf.reduce_mean(-tf.reduce_sum(Y*tf.log(pred_model), reduction_indices=1))
 print('cost is')
 print(cost)
 
@@ -51,7 +51,9 @@ with tf.Session() as sess:
     
     for i in range(100):
         # Run the optimizer on the data points
-        sess.run(optimizer, {X:X[i], Y:Y[i]})
+        print('shape is')
+        print(tf.slice(X, 1,1))
+        sess.run(optimizer, feed_dict = {X:tf.slice(X, 1,1) , Y:Y[i]})
 
     print(sess.run(w1, w2))
-
+#
